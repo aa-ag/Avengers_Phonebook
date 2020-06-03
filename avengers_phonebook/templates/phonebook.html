@@ -4,12 +4,14 @@
 
 <h3>Contact any of the Avengers on their landline phone number today!</h3>
 
-{% for key, name in names.items() %}
-    <ul>
-        <li>
-            {{ key }} {{ name }}
-        </li>
-    </ul>
+{% for name, num in names.items() %}
+    <div class="phone-nums">
+        <ul class="avengers-list">
+            <li>
+                <b>{{ name }}</b> {{ num }}
+            </li>
+        </ul>
+    </div>
 {% endfor %}
 
 <div>
