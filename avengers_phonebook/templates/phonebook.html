@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Contact any of the Avengers on their landline phone number today!</h3>
+
+{% for key, name in names.items() %}
+    <ul>
+        <li>
+            {{ key }} {{ name }}
+        </li>
+    </ul>
+{% endfor %}
+
+<div>
+    <iframe src="" frameborder="0"></iframe>
+</div>
+
+{% endblock content %}
