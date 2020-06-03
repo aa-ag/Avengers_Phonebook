@@ -1,0 +1,25 @@
+* {
+    font-family: monospace;
+}
+
+.banner {
+    height: 100vh;
+    background-size: cover;
+    background-position: 30% 30%;
+    background-image: url(../media/giphy.gif);
+}
+
+h1 {
+    display: flex;
+    font-weight: bold;
+    color: white;
+    margin-left: 3vw;
+    padding-top: 5vh;
+}
+
+.tagline {
+    display: flex;
+    font-style: italic;
+    color: silver;
+    margin-left: 3vw;
+}
