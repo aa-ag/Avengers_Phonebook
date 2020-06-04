@@ -6,7 +6,6 @@ class UserInfoForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(),Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    usernamephone_number = StringField('Phone', validators=[DataRequired()])
     submit = SubmitField()
 
 class LoginForm(FlaskForm):

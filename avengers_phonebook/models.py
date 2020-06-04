@@ -11,13 +11,11 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
-    usernamephone_number = db.Column(db.String(150), nullable = False, unique = True, default="")
     username = db.Column(db.String(150), nullable = True, unique = True, default="")
     email = db.Column(db.String(150), nullable = True, unique = True, default="")
     password = db.Column(db.String(256), nullable = True, default="")
     
-    def __init__(self, usernamephone_number, username, email, password):
-        self.usernamephone_number = usernamephone_number
+    def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = self.set_password(password)
@@ -29,7 +27,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'{self.phone_number} was added.'
 
-class PostNum(db.Model):
+class AvengerNum(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     avenger_name = db.Column(db.String(200))
     phone_num = db.Column(db.String(10))

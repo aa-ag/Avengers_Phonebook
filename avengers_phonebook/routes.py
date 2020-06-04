@@ -1,8 +1,8 @@
 from avengers_phonebook import app, db, Message, mail
 from flask import render_template, request, redirect, url_for
-from avengers_phonebook.forms import UserInfoForm, LoginForm
-from avengers_phonebook.models import User, check_password_hash
-from flask_login import login_required,login_user,current_user,logout_user
+from avengers_phonebook.forms import UserInfoForm, PostNum, LoginForm
+from avengers_phonebook.models import User, AvengerNum, check_password_hash
+from flask_login import login_required, login_user, current_user, logout_user
 
 @app.route('/')
 def home():
@@ -10,19 +10,18 @@ def home():
 
 @app.route('/phonebook.html')
 def phonebook():
-    nums = PostNum.query.all()
-    return render_template('phonebook.html', names = names)
+    nums = AvengerNum.query.all()
+    return render_template('phonebook.html', nums = nums)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
     form = UserInfoForm()
     if request.method == 'POST' and form.validate():
-        usernamephone_number = form.usernamephone_number.data
         username = form.username.data
         password = form.password.data
         email = form.email.data
-        print("\n", usernamephone_number, username, password, email)
-        user = User(username, usernamephone_number, email, password)
+        print("\n", username, password, email)
+        user = User(username, email, password)
         
         db.session.add(user)
         db.session.commit()
@@ -31,7 +30,7 @@ def register():
         msg.body =('Congrats on signing up!')
         msg.html = ('<h1> Welcome to Call An Avenger! </h1>' '<p> This will be fun! </p>')
         mail.send(msg)
-    return render_template('register.html',form = form)
+    return render_template('register.html', form = form)
 
 @app.route('/submitnum', methods=['GET','POST'])
 @login_required
@@ -42,7 +41,7 @@ def submitnum():
         phone = num.phone_num.data
         user_id = current_user.id
         print('\n', name, phone)
-        num = PostNum(name, phone, user_id)
+        num = AvengerNum(name, phone, user_id)
 
         db.session.add(num)
 
@@ -54,13 +53,13 @@ def submitnum():
 @app.route('/submitnum/<int:num_id>')
 @login_required
 def num_detail(num_id):
-    num = PostNum.query.get_or_404(post_id)
+    num = AvengerNum.query.get_or_404(post_id)
     return render_template('num_detail.html', num = num)
 
 @app.route('/submitnum/update/<int:num_id>', methods = ['GET', 'POST'])
 @login_required
 def num_update(num_id):
-    num = PostNum.query.get_or_404(num_id)
+    nums = AvengerNum.query.get_or_404(num_id)
     update_contact = PostNum()
 
     if request.method == 'POST' and update_contact.validate():
@@ -69,9 +68,9 @@ def num_update(num_id):
         user_id = current_user.id
         print(name, num, user_id)
 
-        num.name = name
-        num.num = num
-        num.user_id = user_id
+        nums.name = name
+        nums.num = num
+        nums.user_id = user_id
 
         db.session.commit()
         return redirect(url_for('num_update', num_id = num.id))
@@ -80,7 +79,7 @@ def num_update(num_id):
 @app.route('/submitnum/delete/<int:num_id>', methods=['POST'])
 @login_required
 def post_delete(num_id):
-    num = PostNum.query.get_or_404(num_id)
+    num = AvengerNum.query.get_or_404(num_id)
     db.session.delete(num)
     db.session.commit()
     return redirect(url_for('phonebook'))
