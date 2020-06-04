@@ -1,6 +1,6 @@
 from avengers_phonebook import app, db, Message, mail
 from flask import render_template, request, redirect, url_for
-from avengers_phonebook.forms import PhoneNumberInfo, LoginForm
+from avengers_phonebook.forms import UserInfoForm, LoginForm
 from avengers_phonebook.models import User, check_password_hash
 from flask_login import login_required,login_user,current_user,logout_user
 
@@ -10,21 +10,12 @@ def home():
 
 @app.route('/phonebook.html')
 def phonebook():
-    names = {
-        'Captain Marvel:': 18001234455,
-        'Captain America:': 5555555555,
-        'Iron Man:': 6302227878,
-        'Hulk:': 9990001111,
-        'Black Widow:': 2304448899,
-        'Thor:': 7792301718,
-        'Black Panthern:': 1111111111,
-        'Ant Man:': 9999999999
-    }
+    nums = PostNum.query.all()
     return render_template('phonebook.html', names = names)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
-    form = PhoneNumberInfo()
+    form = UserInfoForm()
     if request.method == 'POST' and form.validate():
         usernamephone_number = form.usernamephone_number.data
         username = form.username.data
@@ -41,6 +32,58 @@ def register():
         msg.html = ('<h1> Welcome to Call An Avenger! </h1>' '<p> This will be fun! </p>')
         mail.send(msg)
     return render_template('register.html',form = form)
+
+@app.route('/submitnum', methods=['GET','POST'])
+@login_required
+def submitnum():
+    num = PostNum()
+    if request.method == 'POST' and post.validate():
+        name = num.avenger_name.data
+        phone = num.phone_num.data
+        user_id = current_user.id
+        print('\n', name, phone)
+        num = PostNum(name, phone, user_id)
+
+        db.session.add(num)
+
+        db.session.commit()
+
+        return redirect(url_for('phonebook'))
+    return render_template('phonebook.html', num = num)
+
+@app.route('/submitnum/<int:num_id>')
+@login_required
+def num_detail(num_id):
+    num = PostNum.query.get_or_404(post_id)
+    return render_template('num_detail.html', num = num)
+
+@app.route('/submitnum/update/<int:num_id>', methods = ['GET', 'POST'])
+@login_required
+def num_update(num_id):
+    num = PostNum.query.get_or_404(num_id)
+    update_contact = PostNum()
+
+    if request.method == 'POST' and update_contact.validate():
+        name = update_contact.avenger_name.data
+        num = update_contact.phone_num.data
+        user_id = current_user.id
+        print(name, num, user_id)
+
+        num.name = name
+        num.num = num
+        num.user_id = user_id
+
+        db.session.commit()
+        return redirect(url_for('num_update', num_id = num.id))
+    return render_template('num_update.html', update_num = update_num)
+
+@app.route('/submitnum/delete/<int:num_id>', methods=['POST'])
+@login_required
+def post_delete(num_id):
+    num = PostNum.query.get_or_404(num_id)
+    db.session.delete(num)
+    db.session.commit()
+    return redirect(url_for('phonebook'))
 
 @app.route('/login',methods=['GET','POST'])
 def login():

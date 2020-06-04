@@ -2,16 +2,26 @@
 
 {% block content %}
 
-<h3>Contact any of the Avengers on their landline phone number today!</h3>
+<h2>Hello {{ current_user.username }}!</h2>
 
-{% for name, num in names.items() %}
-    <div class="phone-nums">
-        <ul class="avengers-list">
-            <li>
-                <b>{{ name }}</b> {{ num }}
-            </li>
-        </ul>
+{% if current_user.is_authenticated %}
+
+<p>Here are your contacts:</p>
+
+{% for num in submitnum %}
+    <div class="container">
+        <h3>
+            <a href="{{ url_for('num_detail', num_id = num.id) }}">{{ num.avenger_name }}</a>
+        </h3>
+        <p>{{ num.phone_number }}</p>
     </div>
 {% endfor %}
+
+{% else %}
+<h2>Sorry, nothing to show here...</h2>
+
+{%endif %}
+
+{% endblock content %}
 
 {% endblock content %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add a new phone number</h1>
+
+<form action="" method="POST">
+    {{ num.hidden_tag() }}
+    <div class="form-group">
+        <fieldset>
+            {{ num.avenger_name.label }}
+            {{ num.avenger_name(class="form-control", placeholder="Enter Avenger's Name") }}
+        </fieldset>
+
+        <fieldset>
+            {{ num.phone_number.label }}
+            {{ num.phone_number(class="form-control", placeholder="Enter Their Phone Number") }}
+        </fieldset>
+        {{ post.submit(class="btn btn-success") }}
+    </div>
+</form>
+{% endblock content %}

@@ -11,10 +11,10 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
-    usernamephone_number = db.Column(db.String(150), nullable = False, unique = True,default="")
+    usernamephone_number = db.Column(db.String(150), nullable = False, unique = True, default="")
     username = db.Column(db.String(150), nullable = True, unique = True, default="")
     email = db.Column(db.String(150), nullable = True, unique = True, default="")
-    password = db.Column(db.String(256),nullable = True, default="")
+    password = db.Column(db.String(256), nullable = True, default="")
     
     def __init__(self, usernamephone_number, username, email, password):
         self.usernamephone_number = usernamephone_number
@@ -28,3 +28,18 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'{self.phone_number} was added.'
+
+class PostNum(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    avenger_name = db.Column(db.String(200))
+    phone_num = db.Column(db.String(10))
+    date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+
+    def __init__(self, avenger_name, phone_num, user_id):
+        self.avenger_name = avenger_name
+        self.phone_num = phone_num
+        self.user_id = user_id
+
+    def __repr__(self):
+        return f"Contact {self.avenger_name} at {self.phone_num}."
