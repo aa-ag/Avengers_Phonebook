@@ -41,9 +41,13 @@ def register():
         password = form.password.data
         email = form.email.data
         print("\n", username, password, email)
+
         user = User(username, email, password)
+
         db.session.add(user)
+
         db.session.commit()
+        
         msg = Message(f"Thanks for signingup! {email}", recipients=[email])
         msg.body = ('Congrats on sigingup! Looking forward to your posts!')
         msg.html = ('<h1> Welcome to May Blog</h1>' '<p> This will be fun! </p>')
