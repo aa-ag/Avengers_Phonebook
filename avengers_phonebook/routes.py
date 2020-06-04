@@ -8,8 +8,8 @@ from flask_login import login_required,login_user,current_user,logout_user
 def home():
     return render_template('home.html')
 
-@app.route('/directory.html')
-def directory():
+@app.route('/phonebook.html')
+def phonebook():
     names = {
         'Captain Marvel:': 18001234455,
         'Captain America:': 5555555555,
@@ -20,10 +20,10 @@ def directory():
         'Black Panthern:': 1111111111,
         'Ant Man:': 9999999999
     }
-    return render_template('directory.html', names = names)
+    return render_template('phonebook.html', names = names)
 
-@app.route('/phonebook', methods=['GET','POST'])
-def phonebook():
+@app.route('/register', methods=['GET','POST'])
+def register():
     form = PhoneNumberInfo()
     if request.method == 'POST' and form.validate():
         usernamephone_number = form.usernamephone_number.data
@@ -40,7 +40,7 @@ def phonebook():
         msg.body =('Congrats on signing up!')
         msg.html = ('<h1> Welcome to Call An Avenger! </h1>' '<p> This will be fun! </p>')
         mail.send(msg)
-    return render_template('phonebook.html',form = form)
+    return render_template('register.html',form = form)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
