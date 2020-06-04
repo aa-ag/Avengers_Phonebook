@@ -1,7 +1,8 @@
-from avengers_phonebook import app
-from flask import render_template, request
-
-from avengers_phonebook.forms import AvengerInfo
+from avengers_phonebook import app, db, Message
+from flask import render_template, request, redirect, url_for
+from avengers_phonebook.forms import AvengerInfo, UserInfo, LoginForm
+from avengers_phonebook.models import Avenger, User, check_password_hash
+from flask_login import login_required, login_user, current_user, logout_user
 
 @app.route('/')
 def home():
@@ -9,7 +10,6 @@ def home():
 
 @app.route('/phonebook.html')
 def phonebook():
-    # names = [('Captain America': '111-111-1111'), ('Iron Man': '222-222-2222'), ('Hulk': '333-333-3333'), ('Thor': '444-444-4444'), ('Black Widow': '555-555-5555'), ('Ms. Marvel': '666-666-6666'), ('Black Panthern': '777-777-7777'), ('Ant-Man': '888-888-8888'), ('Doctor Strange': '999-999-9999')]
     names = {
         'Captain Marvel:': 18001234455,
         'Captain America:': 5555555555,
@@ -32,3 +32,38 @@ def newnum():
         num = form.num.data
         print("\n", hero_name, legal_nam, skills, num)
     return render_template('newnum.html', form = form)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = UserInfo()
+    if request.method == 'POST' and form.validate():
+        username = form.username.data
+        password = form.password.data
+        email = form.email.data
+        print("\n", username, password, email)
+        user = User(username, email, password)
+        db.session.add(user)
+        db.session.commit()
+        msg = Message(f"Thanks for signingup! {email}", recipients=[email])
+        msg.body = ('Congrats on sigingup! Looking forward to your posts!')
+        msg.html = ('<h1> Welcome to May Blog</h1>' '<p> This will be fun! </p>')
+    return render_template('register.html', form = form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if request.method == 'POST' and form.validate():
+        email = form.email.data
+        password = form.password.data
+        logged_user = User.query.filter(User.email == email).first()
+        if logged_user and check_password_hash(logged_user.password, password):
+            login_user(logged_user)
+            return redirect(url_for('home'))
+        else:
+            return redirect(url_for('login'))
+    return render_template('login.html', form = form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
