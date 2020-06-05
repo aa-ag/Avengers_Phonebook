@@ -20,15 +20,15 @@ def submitnum():
     if request.method == 'POST' and num.validate():
         name = num.avenger_name.data
         phone = num.phone_num.data
+        user_id = current_user.id
         print('\n', name, phone)
-
-        num = AvengerNum(name, phone)
+        num = AvengerNum(name, phone, user_id)
 
         db.session.add(num)
 
         db.session.commit()
 
-        return redirect(url_for('submitnum'))
+        return redirect(url_for('phonebook'))
     return render_template('submitnum.html', num = num)
 
 @app.route('/num_detail/<int:num_id>')
@@ -40,7 +40,7 @@ def num_detail(num_id):
 @app.route('/num_detail/update/<int:num_id>', methods = ['GET', 'POST'])
 @login_required
 def num_update(num_id):
-    nums = AvengerNum.query.get_or_404(num_id)
+    num = AvengerNum.query.get_or_404(num_id)
     update_contact = PostNum()
 
     if request.method == 'POST' and update_contact.validate():
@@ -49,8 +49,8 @@ def num_update(num_id):
         user_id = current_user.id
         print(name, num, user_id)
 
-        nums.avenger_name = name
-        nums.phone_num = num
+        num.avenger_name = name
+        num.phone_num = num
 
         db.session.commit()
         return redirect(url_for('phonebook.html', num_id = num.id))
