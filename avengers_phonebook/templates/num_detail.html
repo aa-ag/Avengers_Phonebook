@@ -10,6 +10,10 @@
     <h3>Avenger: {{ num.avenger_name }}</h3>
     <h3>Phone number: {{ num.phone_num }}</h3>
 
-    <blockquote>Created on: {{ num.date_created }}</blockquote>
+    <blockquote>Contact created on: {{ num.date_created }}</blockquote>
 
+    <a href="{{ url_for('num_update', num_id = num.id ) }}"><button class="btn btn-primary">Update</button></a>
+
+
+</div>
 {% endblock content %}

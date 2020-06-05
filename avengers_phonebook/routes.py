@@ -46,16 +46,14 @@ def num_update(num_id):
     if request.method == 'POST' and update_contact.validate():
         name = update_contact.avenger_name.data
         num = update_contact.phone_num.data
-        user_id = current_user.id
         print(name, num, user_id)
 
-        nums.name = name
-        nums.num = num
-        nums.user_id = user_id
+        nums.avenger_name = name
+        nums.phone_num = num
 
         db.session.commit()
-        return redirect(url_for('phonebook.html', num_id = num.id))
-    return render_template('phonebook.html', update_num = update_num)
+        return redirect(url_for('num_update.html', num_id = num.id))
+    return render_template('num_update.html', update_contact = update_contact)
 
 @app.route('/num_detail/delete/<int:num_id>', methods=['POST'])
 @login_required
