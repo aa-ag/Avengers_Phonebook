@@ -32,12 +32,10 @@ class AvengerNum(db.Model):
     avenger_name = db.Column(db.String(200))
     phone_num = db.Column(db.String(10))
     date_created = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
     def __init__(self, avenger_name, phone_num, user_id):
         self.avenger_name = avenger_name
         self.phone_num = phone_num
-        self.user_id = user_id
 
     def __repr__(self):
         return f"Contact {self.avenger_name} at {self.phone_num}."

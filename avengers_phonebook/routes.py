@@ -20,15 +20,15 @@ def submitnum():
     if request.method == 'POST' and num.validate():
         name = num.avenger_name.data
         phone = num.phone_num.data
-        user_id = current_user.id
         print('\n', name, phone)
-        num = AvengerNum(name, phone, user_id)
+
+        num = AvengerNum(name, phone)
 
         db.session.add(num)
 
         db.session.commit()
 
-        return redirect(url_for('phonebook'))
+        return redirect(url_for('submitnum'))
     return render_template('submitnum.html', num = num)
 
 @app.route('/num_detail/<int:num_id>')
