@@ -57,7 +57,7 @@ def num_update(num_id):
 
 @app.route('/num_detail/delete/<int:num_id>', methods=['POST'])
 @login_required
-def post_delete(num_id):
+def num_delete(num_id):
     num = AvengerNum.query.get_or_404(num_id)
     db.session.delete(num)
     db.session.commit()
