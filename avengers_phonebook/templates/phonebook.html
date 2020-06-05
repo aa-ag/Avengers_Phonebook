@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<h2>Hello {{ current_user.username }}!</h2>
-
 {% if current_user.is_authenticated %}
+
+<h2>Hello {{ current_user.username }}!</h2>
 
 <p>Here are your contacts:</p>
 
@@ -19,7 +19,7 @@
 
 {% else %}
 
-<h2>Sorry, nothing to show here...</h2>
+<h2>Sorry, you gotta log-in first :)</h2>
 
 {% endif %}
 

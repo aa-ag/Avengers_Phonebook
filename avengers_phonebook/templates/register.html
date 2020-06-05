@@ -2,6 +2,12 @@
 
 {% block content %}
 
+{% if current_user.is_authenticated %}
+
+<p>You alredy registered: duh!</p>
+
+{% else %}
+
 <h1 class="justify-content-center">Register</h1>
 <form action="" method="post">
     {{ form.hidden_tag() }}
@@ -21,5 +27,7 @@
         {{ form.submit(class="btn btn-success") }}
     </div>
 </form>
+
+{% endif %}
 
 {% endblock content %}
