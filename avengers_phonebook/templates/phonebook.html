@@ -11,9 +11,9 @@
 {% for num in nums %}
     <div class="container">
         <h3>
-            <a href="{{ url_for('num_detail', num_id = num.id) }}">{{ num.name }}</a>
+            <a href="{{ url_for('num_detail', num_id = num.id) }}">{{ num.avenger_name }}</a>
         </h3>
-        <p>{{ num.phone }}</p>
+        <p>{{ num.phone_number }}</p>
     </div>
 {% endfor %}
 
