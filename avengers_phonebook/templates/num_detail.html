@@ -5,10 +5,10 @@
 <a href="{{ url_for('phonebook') }}"><button class="btn btn-primary">Back to Phonebook</button></a>
 
 <div class="container">
-    <h2>Here's everything we've got:</h2>
+    <p>Here's everything we've got:</p>
 
-    <h3>Avenger: {{ num.avenger_name }}</h3>
-    <h3>Phone number: {{ num.phone_num }}</h3>
+    <p><b>Avenger:</b> {{ num.avenger_name }}</p>
+    <p><b>Phone number:</b> {{ num.phone_num }}</p>
 
     <blockquote>Contact created on: {{ num.date_created }}</blockquote>
 
