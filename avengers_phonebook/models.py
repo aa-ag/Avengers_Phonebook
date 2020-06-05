@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
         return self.pw_hash
 
     def __repr__(self):
-        return f'{self.phone_number} was added.'
+        return f'{self.email} was added.'
 
 class AvengerNum(db.Model):
     id = db.Column(db.Integer, primary_key = True)

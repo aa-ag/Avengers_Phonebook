@@ -8,12 +8,12 @@
 
 <p>Here are your contacts:</p>
 
-{% for num in submitnum %}
+{% for num in nums %}
     <div class="container">
         <h3>
-            <a href="{{ url_for('num_detail', num_id = num.id) }}">{{ num.avenger_name }}</a>
+            <a href="{{ url_for('num_detail', num_id = num.id) }}">{{ num.name }}</a>
         </h3>
-        <p>{{ num.phone_number }}</p>
+        <p>{{ num.phone }}</p>
     </div>
 {% endfor %}
 
@@ -21,6 +21,6 @@
 
 <h2>Sorry, nothing to show here...</h2>
 
-{%endif %}
+{% endif %}
 
 {% endblock content %}

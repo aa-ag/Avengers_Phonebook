@@ -48,7 +48,7 @@ def submitnum():
         db.session.commit()
 
         return redirect(url_for('phonebook'))
-    return render_template('phonebook.html', num = num)
+    return render_template('submitnum.html', num = num)
 
 @app.route('/submitnum/<int:num_id>')
 @login_required
